@@ -7,75 +7,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #7b68ee; --primary-glow: rgba(123, 104, 238, 0.6);
-            --secondary: #00f5d4; --accent: #ff6b9d; --danger: #ff4757;
-            --dark: #0a0a1a; --darker: #050510; --light: #f8f9ff;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --card-bg: rgba(20, 20, 40, 0.6);
-            --neon-blue: 0 0 10px #7b68ee, 0 0 20px #7b68ee;
-            --neon-pink: 0 0 10px #ff6b9d, 0 0 20px #ff6b9d;
-        }
+        :root { --primary: #7b68ee; --primary-glow: rgba(123,104,238,0.6); --secondary: #00f5d4; --accent: #ff6b9d; --danger: #ff4757; --dark: #0a0a1a; --darker: #050510; --light: #f8f9ff; --glass: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08); --card-bg: rgba(20,20,40,0.6); }
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--darker); color: var(--light); min-height: 100vh; overflow-x: hidden; position: relative; }
-        .bg-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(123, 104, 238, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(123, 104, 238, 0.05) 1px, transparent 1px); background-size: 40px 40px; z-index: -1; animation: gridMove 30s linear infinite; }
+        body { font-family: 'Poppins', sans-serif; background: var(--darker); color: var(--light); min-height: 100vh; }
+        .bg-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(123,104,238,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(123,104,238,0.05) 1px, transparent 1px); background-size: 40px 40px; z-index: -1; animation: gridMove 30s linear infinite; }
         @keyframes gridMove { 0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 100% { transform: perspective(500px) rotateX(60deg) translateY(40px); } }
-        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 80vh; background: radial-gradient(circle, rgba(123, 104, 238, 0.15) 0%, transparent 70%); z-index: -1; pointer-events: none; }
-        
-        /* LOGIN SCREEN */
-        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 16, 0.95); backdrop-filter: blur(15px); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.6s ease, visibility 0.6s; }
-        #loginScreen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .login-box { background: var(--card-bg); border: 1px solid var(--glass-border); padding: 3rem; border-radius: 24px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 0 50px rgba(123, 104, 238, 0.2); position: relative; overflow: hidden; }
-        .login-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent)); animation: borderGlow 3s linear infinite; }
-        @keyframes borderGlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,5,16,0.95); backdrop-filter: blur(15px); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .login-box { background: var(--card-bg); border: 1px solid var(--glass-border); padding: 3rem; border-radius: 24px; width: 90%; max-width: 450px; text-align: center; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .login-icon { font-size: 4rem; color: var(--primary); margin-bottom: 1.5rem; animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .login-title { font-family: 'Orbitron', monospace; font-size: 1.8rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, var(--light), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .login-subtitle { color: var(--secondary); font-size: 0.9rem; margin-bottom: 2rem; letter-spacing: 1px; }
+        .login-subtitle { color: var(--secondary); font-size: 0.9rem; margin-bottom: 2rem; }
         .input-group { position: relative; margin-bottom: 1.5rem; }
-        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 1.1rem; }
-        .input-group input { width: 100%; padding: 14px 14px 14px 45px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--light); font-family: 'Poppins', sans-serif; font-size: 1rem; transition: all 0.3s; }
-        .input-group input:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0, 245, 212, 0.2); background: rgba(255,255,255,0.08); }
-        .btn-login { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; font-family: 'Orbitron', monospace; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 30px rgba(123, 104, 238, 0.3); }
-        .btn-login:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(123, 104, 238, 0.5); }
-        .btn-login:active { transform: translateY(-1px); }
-        .error-msg { color: var(--danger); font-size: 0.85rem; margin-top: 1rem; height: 20px; opacity: 0; transition: opacity 0.3s; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); }
+        .input-group input { width: 100%; padding: 14px 14px 14px 45px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--light); font-size: 1rem; transition: all 0.3s; }
+        .input-group input:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0,245,212,0.2); background: rgba(255,255,255,0.08); }
+        .btn-login { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; font-family: 'Orbitron', monospace; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .btn-login:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(123,104,238,0.5); }
+        .error-msg { color: var(--danger); font-size: 0.85rem; margin-top: 1rem; opacity: 0; transition: opacity 0.3s; min-height: 20px; }
         .error-msg.show { opacity: 1; }
-
-        /* DASHBOARD */
-        #dashboard { display: none; opacity: 0; transition: opacity 0.8s ease; }
-        #dashboard.active { display: block; opacity: 1; }
-        .navbar { position: fixed; top: 0; left: 0; right: 0; height: 70px; background: rgba(10, 10, 25, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; z-index: 100; }
-        .nav-brand { font-family: 'Orbitron', monospace; font-size: 1.4rem; font-weight: 700; color: var(--light); display: flex; align-items: center; gap: 10px; }
+        #dashboard { display: none; }
+        #dashboard.active { display: block; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; height: 70px; background: rgba(10,10,25,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; z-index: 100; }
+        .nav-brand { font-family: 'Orbitron', monospace; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .nav-brand span { color: var(--secondary); }
         .nav-actions { display: flex; gap: 1rem; }
-        .btn-nav { padding: 8px 20px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--light); cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 0.9rem; transition: all 0.3s; display: flex; align-items: center; gap: 8px; text-decoration: none; }
-        .btn-nav:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-2px); }
+        .btn-nav { padding: 8px 20px; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--light); cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        .btn-nav:hover { background: var(--primary); transform: translateY(-2px); }
         .btn-nav.public-link { background: linear-gradient(135deg, var(--secondary), #00b894); border: none; color: #000; font-weight: 600; }
         .container { max-width: 1400px; margin: 100px auto 50px; padding: 0 2rem; display: grid; grid-template-columns: 350px 1fr; gap: 2rem; }
         .sidebar { position: sticky; top: 100px; height: fit-content; }
-        .panel { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .panel-title { font-family: 'Orbitron', monospace; font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--secondary); display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; }
+        .panel { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px); }
+        .panel-title { font-family: 'Orbitron', monospace; font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--secondary); display: flex; align-items: center; gap: 10px; }
         .form-group { margin-bottom: 1.2rem; }
         .form-group label { display: block; color: var(--light); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500; }
         .form-control { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--light); font-family: 'Poppins', sans-serif; transition: all 0.3s; }
-        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(123, 104, 238, 0.2); }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(123,104,238,0.2); }
         .btn-submit { width: 100%; padding: 12px; border: none; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: 1rem; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: var(--neon-blue); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(123,104,238,0.4); }
         .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .btn-cancel { width: 100%; padding: 12px; border: 1px solid var(--glass-border); background: transparent; color: var(--light); border-radius: 10px; cursor: pointer; margin-top: 0.5rem; display: none; }
+        .btn-cancel { width: 100%; padding: 12px; border: 1px solid var(--glass-border); background: transparent; color: var(--light); border-radius: 10px; cursor: pointer; margin-top: 0.5rem; display: none; transition: all 0.3s; }
         .btn-cancel:hover { background: rgba(255,255,255,0.05); }
-        .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
         .stats-bar { display: flex; gap: 1rem; margin-bottom: 2rem; }
-        .stat-badge { background: var(--card-bg); border: 1px solid var(--glass-border); padding: 1rem 1.5rem; border-radius: 12px; flex: 1; display: flex; align-items: center; gap: 15px; }
-        .stat-icon { width: 45px; height: 45px; border-radius: 10px; background: rgba(123, 104, 238, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .stat-badge { background: var(--card-bg); border: 1px solid var(--glass-border); padding: 1rem 1.5rem; border-radius: 12px; flex: 1; display: flex; align-items: center; gap: 15px; transition: all 0.3s; }
+        .stat-badge:hover { border-color: var(--secondary); transform: translateY(-3px); }
+        .stat-icon { width: 45px; height: 45px; border-radius: 10px; background: rgba(123,104,238,0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
         .stat-info h4 { font-size: 1.5rem; font-family: 'Orbitron', monospace; }
         .stat-info p { font-size: 0.8rem; color: var(--secondary); }
         .members-table-container { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; backdrop-filter: blur(10px); }
         .table-responsive { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
-        th { background: rgba(123, 104, 238, 0.1); color: var(--secondary); padding: 1rem; text-align: left; font-family: 'Orbitron', monospace; font-size: 0.85rem; text-transform: uppercase; }
+        th { background: rgba(123,104,238,0.1); color: var(--secondary); padding: 1rem; text-align: left; font-family: 'Orbitron', monospace; font-size: 0.85rem; text-transform: uppercase; }
         td { padding: 1rem; border-bottom: 1px solid var(--glass-border); vertical-align: middle; }
         tr:last-child td { border-bottom: none; }
         tr:hover { background: rgba(255,255,255,0.02); }
@@ -84,20 +68,18 @@
         .member-details h5 { font-size: 0.95rem; color: var(--light); }
         .member-details span { font-size: 0.75rem; color: var(--secondary); font-family: 'Orbitron', monospace; }
         .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-        .status-founder { background: rgba(255, 107, 157, 0.2); color: var(--accent); border: 1px solid var(--accent); }
-        .status-admin { background: rgba(0, 245, 212, 0.2); color: var(--secondary); border: 1px solid var(--secondary); }
-        .status-vip { background: rgba(255, 215, 0, 0.2); color: #ffd700; border: 1px solid #ffd700; }
-        .status-member { background: rgba(123, 104, 238, 0.2); color: var(--primary); border: 1px solid var(--primary); }
+        .status-founder { background: rgba(255,107,157,0.2); color: var(--accent); border: 1px solid var(--accent); }
+        .status-admin { background: rgba(0,245,212,0.2); color: var(--secondary); border: 1px solid var(--secondary); }
+        .status-vip { background: rgba(255,215,0,0.2); color: #ffd700; border: 1px solid #ffd700; }
+        .status-member { background: rgba(123,104,238,0.2); color: var(--primary); border: 1px solid var(--primary); }
         .action-btns { display: flex; gap: 8px; }
-        .btn-action { width: 32px; height: 32px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .btn-edit { background: rgba(0, 245, 212, 0.15); color: var(--secondary); }
-        .btn-edit:hover { background: var(--secondary); color: #000; transform: scale(1.1); }
-        .btn-delete { background: rgba(255, 71, 87, 0.15); color: var(--danger); }
-        .btn-delete:hover { background: var(--danger); color: white; transform: scale(1.1); }
-        .loading-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,10,25,0.9); display: flex; align-items: center; justify-content: center; z-index: 50; border-radius: 20px; }
-        .spinner { width: 40px; height: 40px; border: 4px solid var(--glass-border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--card-bg); border: 1px solid var(--glass-border); padding: 15px 25px; border-radius: 12px; display: flex; align-items: center; gap: 12px; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2000; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .btn-action { width: 32px; height: 32px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 0.9rem; }
+        .btn-action:hover { transform: scale(1.15); }
+        .btn-edit { background: rgba(0,245,212,0.15); color: var(--secondary); }
+        .btn-edit:hover { background: var(--secondary); color: #000; }
+        .btn-delete { background: rgba(255,71,87,0.15); color: var(--danger); }
+        .btn-delete:hover { background: var(--danger); color: white; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--card-bg); border: 1px solid var(--glass-border); padding: 15px 25px; border-radius: 12px; display: flex; align-items: center; gap: 12px; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275); z-index: 2000; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast.success { border-left: 4px solid var(--secondary); }
         .toast.error { border-left: 4px solid var(--danger); }
@@ -105,7 +87,7 @@
     </style>
 </head>
 <body>
-    <div class="bg-grid"></div><div class="bg-glow"></div>
+    <div class="bg-grid"></div>
 
     <!-- LOGIN SCREEN -->
     <div id="loginScreen">
@@ -119,9 +101,11 @@
                     <input type="password" id="passwordInput" placeholder="Enter Access Code" required autofocus>
                 </div>
                 <button type="submit" class="btn-login"><i class="fas fa-unlock"></i> Unlock System</button>
-                <div class="error-msg" id="loginError"><i class="fas fa-exclamation-triangle"></i> Access Denied: Invalid Code</div>
+                <div class="error-msg" id="loginError"><i class="fas fa-exclamation-triangle"></i> Access Denied</div>
             </form>
-            <div style="margin-top: 2rem; font-size: 0.8rem; color: rgba(255,255,255,0.3);"><i class="fas fa-cloud"></i> Connected to Firebase</div>
+            <div style="margin-top: 2rem; font-size: 0.8rem; color: rgba(255,255,255,0.4);">
+                <i class="fas fa-bolt"></i> Powered by Supabase
+            </div>
         </div>
     </div>
 
@@ -130,7 +114,7 @@
         <nav class="navbar">
             <div class="nav-brand"><i class="fas fa-user-shield"></i> KYOUTAKA <span>ADMIN</span></div>
             <div class="nav-actions">
-                <a href="member.html" class="btn-nav public-link"><i class="fas fa-eye"></i> View Public Site</a>
+                <a href="member.html" class="btn-nav public-link"><i class="fas fa-eye"></i> View Public</a>
                 <button class="btn-nav" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
         </nav>
@@ -139,218 +123,270 @@
                 <div class="panel">
                     <h3 class="panel-title" id="formTitle"><i class="fas fa-user-plus"></i> Add New Member</h3>
                     <form id="memberForm" onsubmit="handleFormSubmit(event)">
-                        <input type="hidden" id="editKey">
-                        <div class="form-group"><label>Full Name</label><input type="text" id="mName" class="form-control" placeholder="e.g. John Doe" required></div>
-                        <div class="form-group"><label>Position / Title</label><input type="text" id="mTitle" class="form-control" placeholder="e.g. CEO, Designer" required></div>
-                        <div class="form-group"><label>Member ID</label><input type="text" id="mId" class="form-control" placeholder="e.g. KYT-001" required></div>
-                        <div class="form-group"><label>Status Level</label><select id="mStatus" class="form-control"><option value="Member">Member</option><option value="VIP">VIP</option><option value="Admin">Admin</option><option value="Founder">Founder</option></select></div>
-                        <div class="form-group"><label>Photo URL</label><input type="url" id="mPhoto" class="form-control" placeholder="https://..."><small style="color: var(--secondary); font-size: 0.7rem; margin-top: 5px; display: block;"><i class="fas fa-info-circle"></i> Leave empty for auto-avatar</small></div>
+                        <input type="hidden" id="editId">
+                        <div class="form-group"><label>Full Name *</label><input type="text" id="mName" class="form-control" placeholder="e.g. John Doe" required></div>
+                        <div class="form-group"><label>Position / Title *</label><input type="text" id="mTitle" class="form-control" placeholder="e.g. CEO, Designer" required></div>
+                        <div class="form-group"><label>Member ID *</label><input type="text" id="mId" class="form-control" placeholder="KYT-001" required></div>
+                        <div class="form-group"><label>Status</label><select id="mStatus" class="form-control"><option value="Member">Member</option><option value="VIP">VIP</option><option value="Admin">Admin</option><option value="Founder">Founder</option></select></div>
+                        <div class="form-group"><label>Photo URL</label><input type="url" id="mPhoto" class="form-control" placeholder="https://... (optional)"><small style="color: var(--secondary); font-size: 0.7rem; display: block; margin-top: 5px;"><i class="fas fa-info-circle"></i> Empty = auto avatar</small></div>
                         <button type="submit" class="btn-submit" id="submitBtn"><i class="fas fa-save"></i> Save Member</button>
-                        <button type="button" class="btn-cancel" id="cancelBtn" onclick="resetForm()"><i class="fas fa-times"></i> Cancel Edit</button>
+                        <button type="button" class="btn-cancel" id="cancelBtn" onclick="resetForm()"><i class="fas fa-times"></i> Cancel</button>
                     </form>
                 </div>
             </aside>
             <main>
                 <div class="stats-bar">
                     <div class="stat-badge"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><h4 id="totalMembers">0</h4><p>Total Members</p></div></div>
-                    <div class="stat-badge"><div class="stat-icon"><i class="fas fa-database"></i></div><div class="stat-info"><h4 id="dbStatus">Connecting...</h4><p>Database Status</p></div></div>
+                    <div class="stat-badge"><div class="stat-icon"><i class="fas fa-database"></i></div><div class="stat-info"><h4 id="dbStatus" style="color: var(--secondary)">● Online</h4><p>Supabase</p></div></div>
                 </div>
-                <div class="content-header"><h2 style="font-family: 'Orbitron'; font-size: 1.5rem;"><i class="fas fa-list"></i> Member Roster</h2></div>
-                <div class="members-table-container" style="position: relative;">
-                    <div id="tableLoading" class="loading-overlay"><div class="spinner"></div></div>
+                <div class="members-table-container">
                     <div class="table-responsive">
                         <table>
                             <thead><tr><th width="50%">Member Info</th><th width="20%">ID</th><th width="15%">Status</th><th width="15%">Actions</th></tr></thead>
                             <tbody id="membersTableBody"></tbody>
                         </table>
                     </div>
-                    <div id="emptyState" style="padding: 3rem; text-align: center; display: none;"><i class="fas fa-inbox" style="font-size: 3rem; color: var(--glass-border); margin-bottom: 1rem;"></i><p style="color: var(--secondary);">No members found. Add one to get started!</p></div>
+                    <div id="emptyState" style="padding: 3rem; text-align: center; display: none;"><i class="fas fa-inbox" style="font-size: 3rem; color: var(--glass-border); margin-bottom: 1rem;"></i><p style="color: var(--secondary);">No members yet. Add one!</p></div>
                 </div>
             </main>
         </div>
     </div>
 
-    <div class="toast" id="toast"><i class="fas fa-check-circle" id="toastIcon"></i><span id="toastMsg">Operation Successful</span></div>
+    <div class="toast" id="toast"><i class="fas fa-check-circle" id="toastIcon"></i><span id="toastMsg"></span></div>
 
-    <!-- FIREBASE SDK -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-        import { getDatabase, ref, set, push, update, remove, onValue } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-        // CONFIG
-        const ADMIN_PASS = "kyoutaka2024";
-        const DB_PATH = "members";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyA6RUrZKtQRe3l99ELGuwuyplmLGBHOjnc",
-            authDomain: "martabak-team.firebaseapp.com",
-            projectId: "martabak-team",
-            storageBucket: "martabak-team.firebasestorage.app",
-            messagingSenderId: "165025392781",
-            appId: "1:165025392781:web:8268a5d79379c181d21ac4",
-            measurementId: "G-RS0LCZQHBL",
-            databaseURL: "https://martabak-team-default-rtdb.firebaseio.com"
-        };
+        // ✅ YOUR SUPABASE CREDENTIALS
+        const SUPABASE_URL = 'https://qrqsdcvvbpzerembucky.supabase.co'
+        const SUPABASE_KEY = 'sb_publishable_K0XFvmcRg4nQI5qJAY7rMA_1HyJssf_'
+        const ADMIN_PASS = 'kyoutaka2024'
 
-        // INIT
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        let membersData = {};
-        let isEditing = false;
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+        let membersData = []
+        let isEditing = false
+        let realtimeChannel = null
 
-        // AUTH
+        // ========== AUTH ==========
         window.handleLogin = (e) => {
-            e.preventDefault();
-            const input = document.getElementById('passwordInput').value;
-            const errorMsg = document.getElementById('loginError');
+            e.preventDefault()
+            const input = document.getElementById('passwordInput').value
+            const errorMsg = document.getElementById('loginError')
             if (input === ADMIN_PASS) {
-                document.getElementById('loginScreen').classList.add('hidden');
-                setTimeout(() => {
-                    document.getElementById('dashboard').classList.add('active');
-                    initDatabase();
-                    showToast('Access Granted. Welcome, Admin.', 'success');
-                }, 600);
+                document.getElementById('loginScreen').style.display = 'none'
+                document.getElementById('dashboard').classList.add('active')
+                initDatabase()
+                showToast('Access Granted. Welcome!', 'success')
             } else {
-                errorMsg.classList.add('show');
-                document.getElementById('passwordInput').value = '';
-                const box = document.querySelector('.login-box');
-                box.style.animation = 'shake 0.5s';
-                setTimeout(() => box.style.animation = '', 500);
+                errorMsg.classList.add('show')
+                document.getElementById('passwordInput').value = ''
+                const box = document.querySelector('.login-box')
+                box.style.animation = 'shake 0.4s'
+                setTimeout(() => box.style.animation = '', 400)
             }
-        };
+        }
+        window.logout = () => { if(confirm('Logout?')) location.reload() }
 
-        window.logout = () => { if(confirm('Logout?')) location.reload(); };
+        // Add shake animation
+        const style = document.createElement('style')
+        style.innerHTML = `@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }`
+        document.head.appendChild(style)
 
-        // DATABASE
-        function initDatabase() {
-            const membersRef = ref(db, DB_PATH);
-            document.getElementById('dbStatus').innerText = 'Syncing...';
+        // ========== DATABASE ==========
+        async function initDatabase() {
+            document.getElementById('dbStatus').innerText = '● Syncing...'
+            document.getElementById('dbStatus').style.color = '#ffd700'
             
-            onValue(membersRef, (snapshot) => {
-                document.getElementById('dbStatus').innerText = '● Online';
-                document.getElementById('dbStatus').style.color = '#00f5d4';
-                document.getElementById('tableLoading').style.display = 'none';
+            try {
+                // Load initial data
+                const { data, error } = await supabase.from('members').select('*').order('created_at', { ascending: false })
+                if (error) throw error
                 
-                const data = snapshot.val();
-                membersData = data || {};
-                renderTable();
-                updateStats();
-            }, (error) => {
-                console.error("Database error:", error);
-                document.getElementById('dbStatus').innerText = '● Offline';
-                document.getElementById('dbStatus').style.color = '#ff4757';
-                showToast('Database connection error', 'error');
-            });
+                membersData = data || []
+                document.getElementById('dbStatus').innerText = '● Online'
+                document.getElementById('dbStatus').style.color = '#00f5d4'
+                renderTable()
+                updateStats()
+
+                // Setup real-time subscription
+                setupRealtime()
+            } catch (err) {
+                console.error('Database error:', err)
+                document.getElementById('dbStatus').innerText = '● Error'
+                document.getElementById('dbStatus').style.color = '#ff4757'
+                showToast('Connection error: ' + err.message, 'error')
+            }
         }
 
-        // CRUD
-        window.handleFormSubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        function setupRealtime() {
+            // Unsubscribe if exists
+            if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+            
+            realtimeChannel = supabase.channel('members-changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'members' }, 
+                    async (payload) => {
+                        console.log('Real-time update:', payload.eventType, payload.new)
+                        await refreshData()
+                    }
+                )
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        console.log('✓ Real-time subscription active')
+                    }
+                })
+        }
 
-            const name = document.getElementById('mName').value;
-            const title = document.getElementById('mTitle').value;
-            const id = document.getElementById('mId').value;
-            const status = document.getElementById('mStatus').value;
-            const photo = document.getElementById('mPhoto').value;
-            const editKey = document.getElementById('editKey').value;
-            const finalPhoto = photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=7b68ee&color=fff&size=100`;
+        async function refreshData() {
+            const { data, error } = await supabase.from('members').select('*').order('created_at', { ascending: false })
+            if (error) { showToast('Sync error', 'error'); return }
+            membersData = data || []
+            renderTable()
+            updateStats()
+        }
+
+        // ========== CRUD ==========
+        window.handleFormSubmit = async (e) => {
+            e.preventDefault()
+            const btn = document.getElementById('submitBtn')
+            const originalBtn = btn.innerHTML
+            btn.disabled = true
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...'
+
+            const member_id = document.getElementById('mId').value.trim()
+            const name = document.getElementById('mName').value.trim()
+            const title = document.getElementById('mTitle').value.trim()
+            const status = document.getElementById('mStatus').value
+            const photo = document.getElementById('mPhoto').value.trim()
+            const editId = document.getElementById('editId').value
+            const finalPhoto = photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=7b68ee&color=fff&size=200`
 
             try {
-                if (isEditing && editKey) {
-                    await update(ref(db, `${DB_PATH}/${editKey}`), { name, title, id, status, photo: finalPhoto, updatedAt: Date.now() });
-                    showToast('Member updated successfully!', 'success');
+                if (isEditing && editId) {
+                    // UPDATE
+                    const { error } = await supabase.from('members').update({ 
+                        name, title, status, photo: finalPhoto, updated_at: new Date().toISOString() 
+                    }).eq('id', editId)
+                    if (error) throw error
+                    showToast('Member updated! ✨', 'success')
                 } else {
-                    if (Object.values(membersData).some(m => m.id === id)) { showToast('Member ID already exists!', 'error'); resetBtn(); return; }
-                    const newRef = push(ref(db, DB_PATH));
-                    await set(newRef, { name, title, id, status, photo: finalPhoto, createdAt: Date.now() });
-                    showToast('New member added!', 'success');
+                    // INSERT
+                    if (membersData.some(m => m.member_id === member_id)) {
+                        showToast('Member ID already exists!', 'error')
+                        resetBtn()
+                        return
+                    }
+                    const { error } = await supabase.from('members').insert([{ 
+                        member_id, name, title, status, photo: finalPhoto 
+                    }])
+                    if (error) throw error
+                    showToast('New member added! 🎉', 'success')
                 }
-                resetForm();
-            } catch (error) {
-                console.error("Error:", error);
-                showToast('Failed to save: ' + error.message, 'error');
+                resetForm()
+                await refreshData()
+            } catch (err) {
+                console.error('Save error:', err)
+                showToast('Error: ' + err.message, 'error')
             } finally {
-                resetBtn();
+                resetBtn()
             }
-        };
+        }
 
-        window.editMember = (key) => {
-            const m = membersData[key];
-            if (!m) return;
-            document.getElementById('editKey').value = key;
-            document.getElementById('mName').value = m.name;
-            document.getElementById('mTitle').value = m.title;
-            document.getElementById('mId').value = m.id;
-            document.getElementById('mStatus').value = m.status;
-            document.getElementById('mPhoto').value = m.photo?.includes('ui-avatars') ? '' : m.photo;
-            isEditing = true;
-            document.getElementById('formTitle').innerHTML = '<i class="fas fa-user-edit"></i> Edit Member';
-            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-sync"></i> Update Data';
-            document.getElementById('cancelBtn').style.display = 'block';
-            if (window.innerWidth < 1024) document.querySelector('.sidebar').scrollIntoView({ behavior: 'smooth' });
-        };
+        window.editMember = (id) => {
+            const m = membersData.find(x => x.id === id)
+            if (!m) return
+            document.getElementById('editId').value = m.id
+            document.getElementById('mName').value = m.name
+            document.getElementById('mTitle').value = m.title
+            document.getElementById('mId').value = m.member_id
+            document.getElementById('mStatus').value = m.status || 'Member'
+            document.getElementById('mPhoto').value = m.photo?.includes('ui-avatars') ? '' : m.photo
+            isEditing = true
+            document.getElementById('formTitle').innerHTML = '<i class="fas fa-user-edit"></i> Edit Member'
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-sync"></i> Update Data'
+            document.getElementById('cancelBtn').style.display = 'block'
+            if (window.innerWidth < 1024) document.querySelector('.sidebar').scrollIntoView({ behavior: 'smooth' })
+        }
 
-        window.deleteMember = async (key) => {
-            if (confirm('Delete this member permanently?')) {
+        window.deleteMember = async (id) => {
+            if (confirm('⚠️ Delete this member permanently?')) {
                 try {
-                    await remove(ref(db, `${DB_PATH}/${key}`));
-                    showToast('Member deleted', 'success');
-                    if (isEditing && document.getElementById('editKey').value === key) resetForm();
-                } catch (error) {
-                    showToast('Delete failed: ' + error.message, 'error');
+                    const { error } = await supabase.from('members').delete().eq('id', id)
+                    if (error) throw error
+                    showToast('Member deleted', 'success')
+                    await refreshData()
+                    if (isEditing && document.getElementById('editId').value === id) resetForm()
+                } catch (err) {
+                    showToast('Delete failed: ' + err.message, 'error')
                 }
             }
-        };
+        }
 
-        // RENDER
+        // ========== RENDER ==========
         function renderTable() {
-            const tbody = document.getElementById('membersTableBody');
-            const emptyState = document.getElementById('emptyState');
-            tbody.innerHTML = '';
-            const members = Object.entries(membersData);
+            const tbody = document.getElementById('membersTableBody')
+            const emptyState = document.getElementById('emptyState')
+            tbody.innerHTML = ''
             
-            if (members.length === 0) { emptyState.style.display = 'block'; return; }
-            emptyState.style.display = 'none';
+            if (membersData.length === 0) {
+                emptyState.style.display = 'block'
+                return
+            }
+            emptyState.style.display = 'none'
 
-            members.forEach(([key, m]) => {
-                const tr = document.createElement('tr');
+            membersData.forEach(m => {
+                const tr = document.createElement('tr')
                 tr.innerHTML = `
-                    <td><div class="member-cell"><img src="${m.photo}" class="member-thumb" alt="${m.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=333&color=fff'"><div class="member-details"><h5>${m.name}</h5><span>${m.title}</span></div></div></td>
-                    <td><span style="font-family:'Orbitron'">${m.id}</span></td>
+                    <td>
+                        <div class="member-cell">
+                            <img src="${m.photo}" class="member-thumb" alt="${m.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name)}&background=333&color=fff&size=100'">
+                            <div class="member-details">
+                                <h5>${m.name}</h5>
+                                <span>${m.title}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span style="font-family:'Orbitron'">${m.member_id}</span></td>
                     <td><span class="status-badge status-${(m.status||'member').toLowerCase()}">${m.status||'Member'}</span></td>
-                    <td><div class="action-btns"><button class="btn-action btn-edit" onclick="editMember('${key}')" title="Edit"><i class="fas fa-pen"></i></button><button class="btn-action btn-delete" onclick="deleteMember('${key}')" title="Delete"><i class="fas fa-trash"></i></button></div></td>
-                `;
-                tbody.appendChild(tr);
-            });
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-action btn-edit" onclick="editMember('${m.id}')" title="Edit"><i class="fas fa-pen"></i></button>
+                            <button class="btn-action btn-delete" onclick="deleteMember('${m.id}')" title="Delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `
+                tbody.appendChild(tr)
+            })
         }
 
-        function updateStats() { document.getElementById('totalMembers').innerText = Object.keys(membersData).length; }
+        function updateStats() { document.getElementById('totalMembers').innerText = membersData.length }
 
-        // UTILS
+        // ========== UTILS ==========
         function resetForm() {
-            isEditing = false;
-            document.getElementById('memberForm').reset();
-            document.getElementById('editKey').value = '';
-            document.getElementById('formTitle').innerHTML = '<i class="fas fa-user-plus"></i> Add New Member';
-            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Save Member';
-            document.getElementById('cancelBtn').style.display = 'none';
+            isEditing = false
+            document.getElementById('memberForm').reset()
+            document.getElementById('editId').value = ''
+            document.getElementById('formTitle').innerHTML = '<i class="fas fa-user-plus"></i> Add New Member'
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Save Member'
+            document.getElementById('cancelBtn').style.display = 'none'
         }
-        function resetBtn() { const btn = document.getElementById('submitBtn'); btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Member'; }
+        function resetBtn() { 
+            const btn = document.getElementById('submitBtn')
+            btn.disabled = false
+            btn.innerHTML = '<i class="fas fa-save"></i> Save Member'
+        }
         window.showToast = (msg, type='success') => {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
-            document.getElementById('toastIcon').className = type==='success'?'fas fa-check-circle':'fas fa-exclamation-circle';
-            toast.className = `toast ${type} show`;
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        };
+            const toast = document.getElementById('toast')
+            document.getElementById('toastMsg').innerText = msg
+            document.getElementById('toastIcon').className = type==='success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'
+            document.getElementById('toastIcon').style.color = type==='success' ? 'var(--secondary)' : 'var(--danger)'
+            toast.className = `toast ${type} show`
+            setTimeout(() => toast.classList.remove('show'), 3500)
+        }
 
-        // ANIMATION
-        const style = document.createElement('style');
-        style.innerHTML = `@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }`;
-        document.head.appendChild(style);
+        // Cleanup on unload
+        window.addEventListener('beforeunload', () => {
+            if (realtimeChannel) supabase.removeChannel(realtimeChannel)
+        })
     </script>
 </body>
 </html>
