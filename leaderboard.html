@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kyoutaka Leaderboard | Elite Rankings</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,776 +18,352 @@
             --dark: #0a0a1a; 
             --darker: #050510; 
             --light: #f8f9ff; 
-            --glass: rgba(255,255,255,0.05); 
-            --glass-border: rgba(255,255,255,0.1); 
-            --card-bg: linear-gradient(145deg, rgba(25,25,45,0.9), rgba(15,15,35,0.95));
-            --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
-            --shadow-glow: 0 0 40px rgba(123,104,238,0.3);
+            --glass: rgba(255,255,255,0.03); 
+            --glass-border: rgba(255,255,255,0.08); 
+            --card-bg: rgba(20,20,40,0.6);
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--darker); color: var(--light); min-height: 100vh; overflow-x: hidden; }
+        .bg-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(123,104,238,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(123,104,238,0.05) 1px, transparent 1px); background-size: 40px 40px; z-index: -1; animation: gridMove 30s linear infinite; }
+        @keyframes gridMove { 0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 100% { transform: perspective(500px) rotateX(60deg) translateY(40px); } }
+        .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 80vw; height: 80vh; background: radial-gradient(circle, rgba(123,104,238,0.15) 0%, transparent 70%); z-index: -1; pointer-events: none; }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* Navbar */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; height: 80px; background: rgba(10,10,25,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 5%; z-index: 1000; animation: slideDown 0.8s ease; }
+        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+        .nav-logo { font-family: 'Orbitron', monospace; font-size: 1.6rem; font-weight: 900; color: var(--light); text-decoration: none; display: flex; align-items: center; gap: 10px; letter-spacing: 2px; }
+        .nav-logo span { color: var(--secondary); }
+        .nav-logo:hover { text-shadow: 0 0 20px var(--primary-glow); }
+        .nav-links { display: flex; gap: 1rem; }
+        .nav-btn { padding: 10px 24px; border-radius: 30px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--light); text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 0.9rem; transition: all 0.3s; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(5px); cursor: pointer; }
+        .nav-btn:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-2px); }
+        .nav-btn.active { background: linear-gradient(135deg, var(--primary), var(--accent)); border: none; }
         
-        html { scroll-behavior: smooth; }
+        /* Hero */
+        .hero { padding: 160px 20px 60px; text-align: center; position: relative; }
+        .hero-title { font-family: 'Orbitron', monospace; font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; background: linear-gradient(135deg, var(--gold), var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: glow 3s ease-in-out infinite alternate; }
+        @keyframes glow { from { filter: drop-shadow(0 0 20px rgba(255,215,0,0.3)); } to { filter: drop-shadow(0 0 40px rgba(255,215,0,0.6)); } }
+        .hero-subtitle { font-size: 1.1rem; color: var(--secondary); letter-spacing: 2px; opacity: 0.8; }
         
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: var(--darker); 
-            color: var(--light); 
-            min-height: 100vh; 
-            overflow-x: hidden;
-            padding-bottom: 100px;
+        /* Podium - Top 3 */
+        .podium-container { max-width: 1000px; margin: 0 auto 4rem; padding: 0 20px; }
+        .podium { display: flex; justify-content: center; align-items: flex-end; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }        .podium-item { 
+            background: var(--card-bg); 
+            border: 2px solid var(--glass-border); 
+            border-radius: 20px; 
+            padding: 2rem 1.5rem; 
+            text-align: center; 
+            min-width: 200px; 
+            flex: 1; 
+            max-width: 280px;
+            position: relative; 
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
         }
-
-        /* ========== BACKGROUND EFFECTS ========== */
-        .bg-particles {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 80%, rgba(123,104,238,0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(255,107,157,0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(0,245,212,0.06) 0%, transparent 70%),
-                linear-gradient(180deg, var(--darker) 0%, #0f0f25 50%, var(--dark) 100%);
-            z-index: -2;
-        }        
-        .bg-grid {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(123,104,238,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(123,104,238,0.04) 1px, transparent 1px);
-            background-size: 50px 50px; 
-            z-index: -1;
-            animation: gridFloat 40s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes gridFloat { 
-            0% { transform: perspective(600px) rotateX(55deg) translateY(0) translateX(0); } 
-            100% { transform: perspective(600px) rotateX(55deg) translateY(50px) translateX(25px); } 
-        }
-
-        .bg-orb {
-            position: fixed; border-radius: 50%; filter: blur(60px); opacity: 0.4;
-            animation: orbFloat 20s ease-in-out infinite; z-index: -1; pointer-events: none;
-        }
-        .bg-orb.orb-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; right: -100px; animation-delay: 0s; }
-        .bg-orb.orb-2 { width: 300px; height: 300px; background: var(--accent); bottom: -50px; left: -50px; animation-delay: -7s; }
-        .bg-orb.orb-3 { width: 250px; height: 250px; background: var(--secondary); top: 40%; left: 30%; animation-delay: -14s; }
-        @keyframes orbFloat { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-40px) scale(1.1); } 66% { transform: translate(-20px,25px) scale(0.95); } }
-
-        /* ========== HEADER ========== */
-        .header {
-            position: fixed; top: 0; left: 0; right: 0;
-            padding: 15px 20px;
-            background: rgba(10,10,25,0.85);
-            backdrop-filter: blur(25px);
-            border-bottom: 1px solid var(--glass-border);
-            display: flex; align-items: center; justify-content: space-between;
-            z-index: 100;
-            animation: headerSlide 0.6s ease;
-        }
-        @keyframes headerSlide { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-        
-        .header-logo {
-            font-family: 'Orbitron', monospace; font-size: 1.3rem; font-weight: 800;
-            display: flex; align-items: center; gap: 8px;
-            background: linear-gradient(135deg, var(--light), var(--secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .header-logo i { color: var(--gold); -webkit-text-fill-color: var(--gold); }
-
-        .header-actions { display: flex; gap: 10px; }
-        .header-btn {
-            width: 42px; height: 42px; border-radius: 12px;
-            background: var(--glass); border: 1px solid var(--glass-border);            color: var(--light); display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; transition: all 0.3s; cursor: pointer;
-        }
-        .header-btn:hover, .header-btn:active { 
-            background: var(--primary); border-color: var(--primary); 
-            transform: scale(1.05); box-shadow: var(--shadow-glow);
-        }
-
-        /* ========== HERO ========== */
-        .hero {
-            padding: 110px 20px 30px;
-            text-align: center;
-            position: relative;
-        }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,107,157,0.2));
-            border: 1px solid var(--gold); border-radius: 30px;
-            padding: 6px 16px; font-size: 0.75rem; font-weight: 600;
-            color: var(--gold); margin-bottom: 15px;
-            animation: badgePulse 2s ease-in-out infinite;
-        }
-        @keyframes badgePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.4); } 50% { box-shadow: 0 0 0 10px rgba(255,215,0,0); } }
-        
-        .hero-title {
-            font-family: 'Orbitron', monospace; font-size: 2rem; font-weight: 900;
-            margin-bottom: 8px; line-height: 1.2;
-            background: linear-gradient(135deg, var(--gold), var(--accent), var(--secondary), var(--gold));
-            background-size: 300% 300%;
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: gradientShift 4s ease infinite, textShine 2s ease-in-out infinite alternate;
-        }
-        @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        @keyframes textShine { from { filter: drop-shadow(0 0 15px rgba(255,215,0,0.4)); } to { filter: drop-shadow(0 0 35px rgba(255,215,0,0.7)); } }
-        
-        .hero-subtitle {
-            font-size: 0.95rem; color: var(--secondary); opacity: 0.85;
-            letter-spacing: 0.5px;
-        }
-
-        /* ========== STATS ========== */
-        .stats-scroll {
-            display: flex; gap: 12px; padding: 0 20px 25px;
-            overflow-x: auto; scroll-snap-type: x mandatory;
-            scrollbar-width: none; -ms-overflow-style: none;
-        }
-        .stats-scroll::-webkit-scrollbar { display: none; }
-        
-        .stat-card {
-            flex: 0 0 auto; width: 140px;            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 18px; padding: 18px 15px;
-            text-align: center; scroll-snap-align: start;
-            backdrop-filter: blur(15px);
-            transition: all 0.3s;
-            animation: statEnter 0.5s ease both;
-        }
-        .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.2s; }
-        .stat-card:nth-child(3) { animation-delay: 0.3s; }
-        .stat-card:nth-child(4) { animation-delay: 0.4s; }
-        @keyframes statEnter { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        
-        .stat-card:hover { transform: translateY(-5px); border-color: var(--secondary); box-shadow: 0 15px 40px rgba(0,245,212,0.15); }
-        
-        .stat-icon {
-            width: 45px; height: 45px; margin: 0 auto 10px;
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; background: rgba(123,104,238,0.15);
-            color: var(--primary);
-        }
-        .stat-card.founders .stat-icon { background: rgba(255,107,157,0.15); color: var(--accent); }
-        .stat-card.admins .stat-icon { background: rgba(0,245,212,0.15); color: var(--secondary); }
-        .stat-card.vips .stat-icon { background: rgba(255,215,0,0.15); color: var(--gold); }
-        
-        .stat-value { font-family: 'Orbitron', monospace; font-size: 1.8rem; font-weight: 700; margin-bottom: 3px; }
-        .stat-card.founders .stat-value { color: var(--accent); }
-        .stat-card.admins .stat-value { color: var(--secondary); }
-        .stat-card.vips .stat-value { color: var(--gold); }
-        .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* ========== PODIUM ========== */
-        .podium-section { padding: 0 20px 30px; }
-        .section-label {
-            font-family: 'Orbitron', monospace; font-size: 0.9rem;
-            color: var(--secondary); text-transform: uppercase; letter-spacing: 2px;
-            margin-bottom: 15px; display: flex; align-items: center; gap: 8px;
-        }
-        .section-label i { color: var(--gold); }
-        
-        .podium {
-            display: flex; justify-content: center; align-items: flex-end;
-            gap: 10px; padding: 10px 0;
-        }
-        
-        .podium-item {
-            flex: 1; max-width: 110px;
-            background: var(--card-bg); border-radius: 20px 20px 16px 16px;
-            padding: 25px 12px 18px; text-align: center;
-            position: relative; transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);            border: 2px solid transparent; backdrop-filter: blur(10px);
-            animation: podiumPop 0.6s ease both;
-        }
-        @keyframes podiumPop { from { opacity: 0; transform: translateY(40px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        
-        .podium-item:hover { transform: translateY(-8px) scale(1.03); z-index: 5; }
-        
+        .podium-item:hover { transform: translateY(-10px); }
         .podium-item.rank-1 { 
-            order: 2; max-width: 130px; padding-top: 35px;
-            background: linear-gradient(145deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05));
-            border-color: var(--gold);
-            box-shadow: 0 0 50px rgba(255,215,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
-            animation-delay: 0.15s;
+            order: 2; 
+            border-color: var(--gold); 
+            box-shadow: 0 0 40px rgba(255,215,0,0.3);
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05));
         }
         .podium-item.rank-2 { 
-            order: 1;
-            background: linear-gradient(145deg, rgba(192,192,192,0.12), rgba(192,192,192,0.04));
-            border-color: var(--silver);
-            box-shadow: 0 0 35px rgba(192,192,192,0.18);
-            animation-delay: 0.05s;
+            order: 1; 
+            border-color: var(--silver); 
+            box-shadow: 0 0 30px rgba(192,192,192,0.2);
+            background: linear-gradient(135deg, rgba(192,192,192,0.1), rgba(192,192,192,0.05));
         }
         .podium-item.rank-3 { 
-            order: 3;
-            background: linear-gradient(145deg, rgba(205,127,50,0.12), rgba(205,127,50,0.04));
-            border-color: var(--bronze);
-            box-shadow: 0 0 35px rgba(205,127,50,0.18);
-            animation-delay: 0.25s;
+            order: 3; 
+            border-color: var(--bronze); 
+            box-shadow: 0 0 30px rgba(205,127,50,0.2);
+            background: linear-gradient(135deg, rgba(205,127,50,0.1), rgba(205,127,50,0.05));
         }
-        
-        .podium-crown {
-            position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
-            font-size: 1.8rem; animation: crownFloat 2s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
+        .rank-badge { 
+            position: absolute; 
+            top: -20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Orbitron', monospace; 
+            font-size: 1.5rem; 
+            font-weight: 900;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
-        .rank-1 .podium-crown { color: var(--gold); animation-delay: 0s; }
-        .rank-2 .podium-crown { color: var(--silver); animation-delay: -0.5s; font-size: 1.4rem; top: -14px; }
-        .rank-3 .podium-crown { color: var(--bronze); animation-delay: -1s; font-size: 1.4rem; top: -14px; }
-        @keyframes crownFloat { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-5px); } }
-        
-        .podium-rank {
-            position: absolute; top: 8px; right: 12px;
-            width: 28px; height: 28px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 800;
-        }
-        .rank-1 .podium-rank { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(255,215,0,0.5); }
-        .rank-2 .podium-rank { background: var(--silver); color: #000; }
-        .rank-3 .podium-rank { background: var(--bronze); color: #fff; }
-        
-        .podium-photo {            width: 75px; height: 75px; margin: 8px auto 12px;
-            border-radius: 50%; overflow: hidden;
-            border: 3px solid; position: relative;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
+        .rank-1 .rank-badge { background: var(--gold); color: #000; box-shadow: 0 0 30px rgba(255,215,0,0.5); }
+        .rank-2 .rank-badge { background: var(--silver); color: #000; }        .rank-3 .rank-badge { background: var(--bronze); color: #fff; }
+        .podium-photo { width: 100px; height: 100px; border-radius: 50%; margin: 1rem auto; border: 4px solid; overflow: hidden; }
         .rank-1 .podium-photo { border-color: var(--gold); }
         .rank-2 .podium-photo { border-color: var(--silver); }
         .rank-3 .podium-photo { border-color: var(--bronze); }
-        .podium-photo::after {
-            content: ''; position: absolute; inset: -3px;
-            border-radius: 50%; border: 2px solid transparent;
-            background: linear-gradient(135deg, var(--gold), var(--accent), var(--secondary)) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            opacity: 0.6; animation: borderRotate 3s linear infinite;
+        .podium-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .podium-name { font-family: 'Orbitron', monospace; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .podium-title { font-size: 0.85rem; color: var(--secondary); margin-bottom: 0.5rem; }
+        .podium-status { 
+            display: inline-block; 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            text-transform: uppercase;
         }
-        @keyframes borderRotate { to { transform: rotate(360deg); } }
-        .podium-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-        .podium-item:hover .podium-photo img { transform: scale(1.1); }
+        .rank-1 .podium-status { background: rgba(255,215,0,0.2); color: var(--gold); border: 1px solid var(--gold); }
+        .rank-2 .podium-status { background: rgba(192,192,192,0.2); color: var(--silver); border: 1px solid var(--silver); }
+        .rank-3 .podium-status { background: rgba(205,127,50,0.2); color: var(--bronze); border: 1px solid var(--bronze); }
+        .podium-id { font-family: 'Orbitron', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; }
         
-        .podium-name {
-            font-family: 'Orbitron', monospace; font-size: 0.95rem; font-weight: 700;
-            margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        /* Leaderboard List */
+        .leaderboard-container { max-width: 900px; margin: 0 auto 100px; padding: 0 20px; }
+        .section-title { font-family: 'Orbitron', monospace; font-size: 1.8rem; margin-bottom: 2rem; text-align: center; color: var(--light); }
+        .leaderboard-list { display: flex; flex-direction: column; gap: 1rem; }
+        .leaderboard-item { 
+            background: var(--card-bg); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 16px; 
+            padding: 1.2rem 1.5rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 1.5rem; 
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.5s ease both;
         }
-        .podium-title { font-size: 0.72rem; color: var(--secondary); margin-bottom: 8px; }
-        .podium-status {
-            display: inline-block; padding: 4px 12px; border-radius: 15px;
-            font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .rank-1 .podium-status { background: rgba(255,215,0,0.18); color: var(--gold); border: 1px solid var(--gold); }
-        .rank-2 .podium-status { background: rgba(192,192,192,0.18); color: var(--silver); border: 1px solid var(--silver); }
-        .rank-3 .podium-status { background: rgba(205,127,50,0.18); color: var(--bronze); border: 1px solid var(--bronze); }
-        .podium-id {
-            font-family: 'Orbitron', monospace; font-size: 0.65rem;
-            color: rgba(255,255,255,0.4); margin-top: 8px;
-        }
-
-        /* ========== LEADERBOARD LIST ========== */
-        .leaderboard-section { padding: 0 20px 30px; }
-        
-        .leaderboard-list { display: flex; flex-direction: column; gap: 12px; }
-        
-        .lb-item {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 18px; padding: 14px 16px;
-            display: flex; align-items: center; gap: 14px;
-            transition: all 0.3s; backdrop-filter: blur(10px);
-            animation: listSlide 0.5s ease both;
-        }
-        @keyframes listSlide { from { opacity: 0; transform: translateX(-25px); } to { opacity: 1; transform: translateX(0); } }        
-        .lb-item:hover { 
-            transform: translateX(5px); 
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        .leaderboard-item:hover { 
+            transform: translateX(10px); 
             border-color: var(--primary); 
-            box-shadow: 0 12px 35px rgba(123,104,238,0.15);
-            background: linear-gradient(145deg, rgba(30,30,50,0.95), rgba(20,20,40,0.95));
+            box-shadow: 0 10px 30px rgba(123,104,238,0.2);
         }
-        
-        .lb-rank {
-            width: 42px; height: 42px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 800;
-            flex-shrink: 0; position: relative; overflow: hidden;
+        .lb-rank { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;             font-family: 'Orbitron', monospace; 
+            font-size: 1.3rem; 
+            font-weight: 700;
+            flex-shrink: 0;
         }
-        .lb-rank::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-            opacity: 0; transition: opacity 0.3s;
-        }
-        .lb-item:hover .lb-rank::before { opacity: 1; }
-        
-        .lb-rank.gold { background: rgba(255,215,0,0.15); color: var(--gold); border: 2px solid var(--gold); box-shadow: 0 0 20px rgba(255,215,0,0.2); }
+        .lb-rank.gold { background: rgba(255,215,0,0.15); color: var(--gold); border: 2px solid var(--gold); }
         .lb-rank.silver { background: rgba(192,192,192,0.15); color: var(--silver); border: 2px solid var(--silver); }
         .lb-rank.bronze { background: rgba(205,127,50,0.15); color: var(--bronze); border: 2px solid var(--bronze); }
         .lb-rank.normal { background: rgba(123,104,238,0.15); color: var(--primary); border: 2px solid var(--primary); }
-        
-        .lb-photo {
-            width: 52px; height: 52px; border-radius: 14px; overflow: hidden;
-            border: 2px solid var(--primary); flex-shrink: 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
+        .lb-photo { width: 60px; height: 60px; border-radius: 12px; overflow: hidden; border: 2px solid var(--primary); flex-shrink: 0; }
         .lb-photo img { width: 100%; height: 100%; object-fit: cover; }
-        
         .lb-info { flex: 1; min-width: 0; }
-        .lb-name {
-            font-family: 'Orbitron', monospace; font-size: 0.95rem; font-weight: 700;
-            margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .lb-title { font-size: 0.75rem; color: var(--secondary); margin-bottom: 4px; }
-        .lb-id { font-family: 'Orbitron', monospace; font-size: 0.68rem; color: rgba(255,255,255,0.4); }
-        
-        .lb-status {
-            padding: 5px 14px; border-radius: 18px;
-            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+        .lb-name { font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+        .lb-title { font-size: 0.85rem; color: var(--secondary); margin-bottom: 0.3rem; }
+        .lb-id { font-family: 'Orbitron', monospace; font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+        .lb-status { 
+            padding: 6px 16px; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            text-transform: uppercase;
             flex-shrink: 0;
         }
-        .status-founder { background: rgba(255,107,157,0.15); color: var(--accent); border: 1px solid var(--accent); }
-        .status-admin { background: rgba(0,245,212,0.15); color: var(--secondary); border: 1px solid var(--secondary); }
-        .status-vip { background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid var(--gold); }
-        .status-member { background: rgba(123,104,238,0.15); color: var(--primary); border: 1px solid var(--primary); }
-        /* Empty & Loading States */
-        .empty-state, .loading-state {
-            text-align: center; padding: 50px 20px; color: rgba(255,255,255,0.5);
-        }
-        .empty-state i, .loading-state i {
-            font-size: 3.5rem; margin-bottom: 15px; display: block;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .loading-spinner {
-            width: 45px; height: 45px; border: 4px solid var(--glass-border);
-            border-top-color: var(--gold); border-radius: 50%;
-            animation: spin 1s linear infinite; margin: 0 auto 20px;
-        }
+        .status-founder { background: rgba(255,107,157,0.2); color: var(--accent); border: 1px solid var(--accent); }
+        .status-admin { background: rgba(0,245,212,0.2); color: var(--secondary); border: 1px solid var(--secondary); }
+        .status-vip { background: rgba(255,215,0,0.2); color: var(--gold); border: 1px solid var(--gold); }
+        .status-member { background: rgba(123,104,238,0.2); color: var(--primary); border: 1px solid var(--primary); }
+        
+        .loading-state { text-align: center; padding: 4rem; }
+        .loading-spinner { width: 50px; height: 50px; border: 4px solid var(--glass-border); border-top-color: var(--gold); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ========== FLOATING MENU BUTTON ========== */
-        .fab-container {
-            position: fixed; bottom: 25px; right: 25px; z-index: 200;
-            display: flex; flex-direction: column-reverse; align-items: flex-end;
-            gap: 12px;
-        }
+        .empty-state { text-align: center; padding: 4rem; color: rgba(255,255,255,0.4); }
+        .empty-state i { font-size: 4rem; margin-bottom: 1rem; display: block; }
         
-        .fab-main {
-            width: 65px; height: 65px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border: none; color: white; font-size: 1.5rem;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 10px 40px rgba(123,104,238,0.5);
-            transition: all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
-            position: relative; overflow: hidden;
-        }
-        .fab-main::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-            opacity: 0; transition: opacity 0.3s;
-        }
-        .fab-main:hover::before { opacity: 1; }
-        .fab-main:hover { transform: scale(1.08) rotate(5deg); box-shadow: 0 15px 50px rgba(123,104,238,0.7), 0 0 40px rgba(255,107,157,0.4); }
-        .fab-main:active { transform: scale(0.95); }
+        .stats-bar { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 3rem; padding: 0 20px; }
+        .stat-box { background: var(--card-bg); border: 1px solid var(--glass-border); padding: 1rem 2rem; border-radius: 12px; text-align: center; backdrop-filter: blur(10px); }
+        .stat-number { font-family: 'Orbitron', monospace; font-size: 2rem; font-weight: 700; color: var(--gold); display: block; }
+        .stat-label { font-size: 0.85rem; color: var(--secondary); }
         
-        .fab-main.open { transform: rotate(45deg); background: linear-gradient(135deg, var(--accent), var(--primary)); }
-        
-        .fab-menu {
-            display: flex; flex-direction: column; align-items: flex-end;
-            gap: 12px; opacity: 0; visibility: hidden;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
-            pointer-events: none;        }
-        .fab-menu.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
-        
-        .fab-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 12px 18px; border-radius: 16px;
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            color: var(--light); text-decoration: none;
-            font-weight: 500; font-size: 0.9rem;
-            backdrop-filter: blur(15px);
-            transition: all 0.3s;
-            animation: fabItemSlide 0.3s ease both;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        }
-        .fab-item:nth-child(1) { animation-delay: 0.05s; }
-        .fab-item:nth-child(2) { animation-delay: 0.1s; }
-        .fab-item:nth-child(3) { animation-delay: 0.15s; }
-        @keyframes fabItemSlide { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
-        
-        .fab-item:hover { 
-            background: var(--primary); border-color: var(--primary);
-            transform: translateX(-5px); box-shadow: var(--shadow-glow);
-        }
-        .fab-item i { width: 20px; text-align: center; font-size: 1.1rem; }
-        .fab-item.members { background: linear-gradient(135deg, rgba(0,245,212,0.15), rgba(0,245,212,0.05)); border-color: var(--secondary); }
-        .fab-item.members:hover { background: var(--secondary); color: #000; }
-        .fab-item.admin { background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(255,107,157,0.05)); border-color: var(--accent); }
-        .fab-item.admin:hover { background: var(--accent); }
-        .fab-item.home { background: linear-gradient(135deg, rgba(123,104,238,0.15), rgba(123,104,238,0.05)); border-color: var(--primary); }
-        .fab-item.home:hover { background: var(--primary); }
-
-        .fab-label {
-            position: absolute; right: 75px; top: 50%; transform: translateY(-50%);
-            background: var(--dark); padding: 6px 14px; border-radius: 10px;
-            font-size: 0.8rem; font-weight: 500; white-space: nowrap;
-            opacity: 0; visibility: hidden; transition: all 0.2s;
-            border: 1px solid var(--glass-border);
-        }
-        .fab-item:hover .fab-label { opacity: 1; visibility: visible; right: 85px; }
-
-        /* ========== TOAST ========== */
-        .toast {
-            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            padding: 14px 24px; border-radius: 14px;
-            display: flex; align-items: center; gap: 10px;
-            opacity: 0; transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
-            z-index: 300; backdrop-filter: blur(15px);
-            box-shadow: var(--shadow-lg); max-width: 90%; text-align: center;
-        }        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .toast.success { border-left: 4px solid var(--secondary); }
-        .toast.error { border-left: 4px solid var(--accent); }
-        .toast i { font-size: 1.2rem; }
-
-        /* ========== UTILITIES ========== */
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-        .text-gradient { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        /* Desktop Enhancements */
-        @media (min-width: 768px) {
-            .hero-title { font-size: 2.8rem; }
-            .podium { gap: 20px; }
-            .podium-item { max-width: 160px; padding: 35px 18px 22px; }
-            .podium-item.rank-1 { max-width: 190px; }
-            .podium-photo { width: 95px; height: 95px; }
-            .lb-item { padding: 16px 20px; }
-            .lb-photo { width: 60px; height: 60px; }
-            .fab-container { bottom: 35px; right: 35px; }
-            .fab-main { width: 72px; height: 72px; font-size: 1.7rem; }
-        }
-
-        /* Prevent pull-to-refresh on mobile */
-        body { overscroll-behavior-y: contain; }
-    </style>
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .podium { flex-direction: column; align-items: center; }
+            .podium-item { order: unset !important; width: 100%; max-width: 300px; }
+            .leaderboard-item { flex-wrap: wrap; }
+            .lb-rank { width: 40px; height: 40px; font-size: 1rem; }
+            .lb-photo { width: 50px; height: 50px; }
+            .navbar { padding: 0 15px; }
+            .nav-links { gap: 0.5rem; }
+            .nav-btn { padding: 8px 16px; font-size: 0.8rem; }
+        }    </style>
 </head>
 <body>
-    <!-- Background Effects -->
-    <div class="bg-particles"></div>
     <div class="bg-grid"></div>
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-    <div class="bg-orb orb-3"></div>
+    <div class="bg-glow"></div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-logo">
-            <i class="fas fa-trophy"></i>
-            <span>KYOUTAKA</span>
+    <nav class="navbar">
+        <a href="member.html" class="nav-logo"><i class="fas fa-crown"></i> KYOUTAKA <span>LEADERBOARD</span></a>
+        <div class="nav-links">
+            <a href="member.html" class="nav-btn"><i class="fas fa-users"></i> Members</a>
+            <a href="admin.html" class="nav-btn"><i class="fas fa-user-shield"></i> Admin</a>
         </div>
-        <div class="header-actions">
-            <button class="header-btn" onclick="refreshData()" title="Refresh" aria-label="Refresh data">
-                <i class="fas fa-sync-alt"></i>
-            </button>
-        </div>
-    </header>
+    </nav>
 
-    <!-- Hero -->
     <section class="hero">
-        <div class="hero-badge">            <i class="fas fa-crown"></i> ELITE RANKINGS
-        </div>
-        <h1 class="hero-title">Leaderboard</h1>
-        <p class="hero-subtitle">Top members by status hierarchy</p>
+        <h1 class="hero-title"><i class="fas fa-trophy"></i> ELITE RANKINGS</h1>
+        <p class="hero-subtitle">Top Members Based on Status Hierarchy</p>
     </section>
 
-    <!-- Stats Scroll -->
-    <div class="stats-scroll">
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-users"></i></div>
-            <div class="stat-value" id="totalMembers">0</div>
-            <div class="stat-label">Total</div>
-        </div>
-        <div class="stat-card founders">
-            <div class="stat-icon"><i class="fas fa-star"></i></div>
-            <div class="stat-value" id="founderCount">0</div>
-            <div class="stat-label">Founders</div>
-        </div>
-        <div class="stat-card admins">
-            <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
-            <div class="stat-value" id="adminCount">0</div>
-            <div class="stat-label">Admins</div>
-        </div>
-        <div class="stat-card vips">
-            <div class="stat-icon"><i class="fas fa-gem"></i></div>
-            <div class="stat-value" id="vipCount">0</div>
-            <div class="stat-label">VIPs</div>
-        </div>
+    <div class="stats-bar">
+        <div class="stat-box"><span class="stat-number" id="totalMembers">0</span><span class="stat-label">Total Members</span></div>
+        <div class="stat-box"><span class="stat-number" id="founderCount">0</span><span class="stat-label">Founders</span></div>
+        <div class="stat-box"><span class="stat-number" id="adminCount">0</span><span class="stat-label">Admins</span></div>
+        <div class="stat-box"><span class="stat-number" id="vipCount">0</span><span class="stat-label">VIPs</span></div>
     </div>
 
-    <!-- Podium Section -->
-    <section class="podium-section">
-        <div class="section-label"><i class="fas fa-medal"></i> Top 3 Champions</div>
-        <div class="podium" id="podiumContainer">
-            <div class="loading-state"><div class="loading-spinner"></div></div>
+    <!-- Top 3 Podium -->
+    <div class="podium-container" id="podiumContainer"></div>
+
+    <!-- Full Leaderboard List -->
+    <div class="leaderboard-container">
+        <h2 class="section-title"><i class="fas fa-list-ol"></i> Complete Rankings</h2>
+        <div class="leaderboard-list" id="leaderboardList">
+            <div class="loading-state"><div class="loading-spinner"></div><p>Loading rankings...</p></div>
         </div>
-    </section>
-
-    <!-- Leaderboard List -->
-    <section class="leaderboard-section">
-        <div class="section-label"><i class="fas fa-list-ol"></i> All Rankings</div>
-        <div class="leaderboard-list" id="leaderboardList"></div>
-    </section>
-
-    <!-- Floating Action Button Menu -->
-    <div class="fab-container">
-        <div class="fab-menu" id="fabMenu">
-            <a href="member.html" class="fab-item members">
-                <i class="fas fa-users"></i>
-                <span>Members</span>                <span class="fab-label">View all members</span>
-            </a>
-            <a href="admin.html" class="fab-item admin">
-                <i class="fas fa-user-shield"></i>
-                <span>Admin</span>
-                <span class="fab-label">Admin dashboard</span>
-            </a>
-            <a href="#" class="fab-item home" onclick="scrollToTop(); return false;">
-                <i class="fas fa-arrow-up"></i>
-                <span>Top</span>
-                <span class="fab-label">Scroll to top</span>
-            </a>
-        </div>
-        <button class="fab-main" id="fabMain" onclick="toggleFab()" aria-label="Toggle menu" aria-expanded="false">
-            <i class="fas fa-plus" id="fabIcon"></i>
-        </button>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMsg"></span>
     </div>
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-        // ========== CONFIG ==========
         const SUPABASE_URL = 'https://qrqsdcvvbpzerembucky.supabase.co'
         const SUPABASE_KEY = 'sb_publishable_K0XFvmcRg4nQI5qJAY7rMA_1HyJssf_'
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-        // Status hierarchy (4 = highest, 1 = lowest)
-        const STATUS_RANK = { 'Founder': 4, 'Admin': 3, 'VIP': 2, 'Member': 1 }
+        // Status hierarchy (higher number = higher rank)
+        const STATUS_HIERARCHY = {
+            'Founder': 4,
+            'Admin': 3,
+            'VIP': 2,
+            'Member': 1        }
 
-        let membersData = []
-        let realtimeSub = null
-
-        // ========== CORE FUNCTIONS ==========
         async function loadLeaderboard() {
-            showLoading()
             try {
                 const { data, error } = await supabase.from('members').select('*')
                 if (error) throw error
 
-                // PURE SORT: Status hierarchy DESC, then created_at DESC
-                membersData = (data || []).sort((a, b) => {
-                    const rankA = STATUS_RANK[a.status] || 0
-                    const rankB = STATUS_RANK[b.status] || 0
-                    if (rankB !== rankA) return rankB - rankA                    return new Date(b.created_at || 0) - new Date(a.created_at || 0)
+                // PURE SORTING: By status hierarchy, then by created_at
+                const sortedMembers = data.sort((a, b) => {
+                    const statusA = STATUS_HIERARCHY[a.status] || 0
+                    const statusB = STATUS_HIERARCHY[b.status] || 0
+                    
+                    // First sort by status (descending)
+                    if (statusB !== statusA) {
+                        return statusB - statusA
+                    }
+                    
+                    // If same status, sort by created_at (newest first)
+                    return new Date(b.created_at) - new Date(a.created_at)
                 })
 
-                renderPodium(membersData.slice(0, 3))
-                renderList(membersData)
-                updateStats(membersData)
-                hideLoading()
-                setupRealtime()
+                renderPodium(sortedMembers.slice(0, 3))
+                renderLeaderboard(sortedMembers)
+                updateStats(sortedMembers)
             } catch (err) {
-                console.error('Load error:', err)
-                showError('Failed to load data')
-                hideLoading()
+                console.error('Error loading leaderboard:', err)
+                document.getElementById('leaderboardList').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error loading data</p>
+                    </div>
+                `
             }
         }
 
-        function setupRealtime() {
-            if (realtimeSub) supabase.removeChannel(realtimeSub)
-            
-            realtimeSub = supabase.channel('leaderboard-updates')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'members' }, 
-                    async () => { await loadLeaderboard() }
-                )
-                .subscribe()
-        }
-
-        // ========== RENDER FUNCTIONS ==========
         function renderPodium(top3) {
             const container = document.getElementById('podiumContainer')
             
-            if (!top3 || top3.length === 0) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-trophy"></i><p>No champions yet</p></div>`
+            if (top3.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-trophy"></i><p>No members yet</p></div>'
                 return
             }
 
-            const positions = [
-                { rank: 2, class: 'rank-2', crown: '🥈' },
-                { rank: 1, class: 'rank-1', crown: '👑' },
-                { rank: 3, class: 'rank-3', crown: '🥉' }
-            ]
-
-            let html = ''
-            top3.forEach((member, idx) => {
-                const pos = positions[idx]
-                const photo = getPhotoUrl(member)
+            const rankClasses = ['rank-2', 'rank-1', 'rank-3'] // Order: 2nd, 1st, 3rd
+            
+            let html = '<div class="podium">'
+            top3.forEach((member, index) => {
+                const rank = index + 1
+                const rankClass = rankClasses[index]
+                const photo = member.photo && member.photo.length > 10                     ? member.photo 
+                    : `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=7b68ee&color=fff&size=200`
                 
                 html += `
-                    <div class="podium-item ${pos.class}">
-                        <div class="podium-crown">${pos.crown}</div>
-                        <div class="podium-rank">${pos.rank}</div>
-                        <div class="podium-photo">                            <img src="${photo}" alt="${member.name}" loading="lazy" 
-                                 onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=333&color=fff&size=150'">
+                    <div class="podium-item ${rankClass}" style="animation: slideUp 0.6s ease ${index * 0.2}s both">
+                        <div class="rank-badge">${rank}</div>
+                        <div class="podium-photo">
+                            <img src="${photo}" alt="${member.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=333&color=fff'">
                         </div>
-                        <div class="podium-name">${escapeHtml(member.name)}</div>
-                        <div class="podium-title">${escapeHtml(member.title)}</div>
+                        <div class="podium-name">${member.name}</div>
+                        <div class="podium-title">${member.title}</div>
                         <div class="podium-status">${member.status || 'Member'}</div>
                         <div class="podium-id">${member.member_id}</div>
                     </div>
                 `
             })
+            html += '</div>'
             container.innerHTML = html
         }
 
-        function renderList(members) {
+        function renderLeaderboard(members) {
             const container = document.getElementById('leaderboardList')
             
-            if (!members || members.length === 0) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-users-slash"></i><p>No members to rank</p></div>`
+            if (members.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-users-slash"></i><p>No members to display</p></div>'
                 return
             }
 
             let html = ''
-            members.forEach((member, idx) => {
-                const rank = idx + 1
-                const photo = getPhotoUrl(member)
+            members.forEach((member, index) => {
+                const rank = index + 1
+                const photo = member.photo && member.photo.length > 10 
+                    ? member.photo 
+                    : `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=7b68ee&color=fff&size=200`
+                
                 let rankClass = 'normal'
                 if (rank === 1) rankClass = 'gold'
                 else if (rank === 2) rankClass = 'silver'
                 else if (rank === 3) rankClass = 'bronze'
-
+                
                 html += `
-                    <div class="lb-item" style="animation-delay: ${Math.min(idx * 0.04, 0.5)}s">
+                    <div class="leaderboard-item" style="animation-delay: ${index * 0.05}s">
                         <div class="lb-rank ${rankClass}">${rank}</div>
                         <div class="lb-photo">
-                            <img src="${photo}" alt="${member.name}" loading="lazy"
-                                 onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=333&color=fff&size=120'">
+                            <img src="${photo}" alt="${member.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=333&color=fff'">
                         </div>
                         <div class="lb-info">
-                            <div class="lb-name">${escapeHtml(member.name)}</div>
-                            <div class="lb-title">${escapeHtml(member.title)}</div>
-                            <div class="lb-id">${member.member_id}</div>
-                        </div>
+                            <div class="lb-name">${member.name}</div>
+                            <div class="lb-title">${member.title}</div>
+                            <div class="lb-id">${member.member_id}</div>                        </div>
                         <div class="lb-status status-${(member.status||'member').toLowerCase()}">${member.status || 'Member'}</div>
                     </div>
                 `
             })
+            
             container.innerHTML = html
         }
 
-        function updateStats(members) {            const counts = { Founder: 0, Admin: 0, VIP: 0, Member: 0 }
-            members.forEach(m => { if (counts[m.status] !== undefined) counts[m.status]++ })
-            
-            document.getElementById('totalMembers').textContent = members.length
-            document.getElementById('founderCount').textContent = counts.Founder
-            document.getElementById('adminCount').textContent = counts.Admin
-            document.getElementById('vipCount').textContent = counts.VIP
+        function updateStats(members) {
+            document.getElementById('totalMembers').innerText = members.length
+            document.getElementById('founderCount').innerText = members.filter(m => m.status === 'Founder').length
+            document.getElementById('adminCount').innerText = members.filter(m => m.status === 'Admin').length
+            document.getElementById('vipCount').innerText = members.filter(m => m.status === 'VIP').length
         }
 
-        // ========== UTILS ==========
-        function getPhotoUrl(member) {
-            if (member.photo && member.photo.length > 20 && member.photo.startsWith('http')) {
-                return member.photo
-            }
-            return `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=7b68ee&color=fff&size=200`
-        }
+        // Add slideUp animation
+        const style = document.createElement('style')
+        style.innerHTML = `@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }`
+        document.head.appendChild(style)
 
-        function escapeHtml(text) {
-            const div = document.createElement('div')
-            div.textContent = text
-            return div.innerHTML
-        }
-
-        function showLoading() {
-            document.getElementById('podiumContainer').innerHTML = `<div class="loading-state"><div class="loading-spinner"></div><p>Loading rankings...</p></div>`
-            document.getElementById('leaderboardList').innerHTML = ''
-        }
-
-        function hideLoading() {
-            // Content already rendered
-        }
-
-        function showError(msg) {
-            showToast(msg, 'error')
-        }
-
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast')
-            document.getElementById('toastMsg').textContent = msg
-            toast.className = `toast ${type} show`
-            setTimeout(() => toast.classList.remove('show'), 3000)
-        }
-
-        // ========== FLOATING MENU ==========
-        window.toggleFab = () => {
-            const fab = document.getElementById('fabMain')
-            const menu = document.getElementById('fabMenu')
-            const icon = document.getElementById('fabIcon')
-            const isOpen = fab.classList.toggle('open')
-            menu.classList.toggle('open', isOpen)            icon.className = isOpen ? 'fas fa-times' : 'fas fa-plus'
-            fab.setAttribute('aria-expanded', isOpen)
-        }
-
-        window.scrollToTop = () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' })
-            // Close menu after scroll
-            setTimeout(() => {
-                const fab = document.getElementById('fabMain')
-                const menu = document.getElementById('fabMenu')
-                fab.classList.remove('open')
-                menu.classList.remove('open')
-                document.getElementById('fabIcon').className = 'fas fa-plus'
-            }, 500)
-        }
-
-        window.refreshData = async () => {
-            showToast('Refreshing...', 'success')
-            await loadLeaderboard()
-            showToast('Data updated!', 'success')
-        }
-
-        // Close FAB when clicking outside
-        document.addEventListener('click', (e) => {
-            const fab = document.getElementById('fabMain')
-            const menu = document.getElementById('fabMenu')
-            if (!fab.contains(e.target) && !menu.contains(e.target) && fab.classList.contains('open')) {
-                toggleFab()
-            }
-        })
-
-        // Keyboard navigation for FAB
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const fab = document.getElementById('fabMain')
-                if (fab.classList.contains('open')) toggleFab()
-            }
-        })
-
-        // ========== INIT ==========
-        document.addEventListener('DOMContentLoaded', () => {
-            loadLeaderboard()
-            
-            // Prevent zoom on double-tap (mobile optimization)
-            let lastTouchEnd = 0
-            document.addEventListener('touchend', (e) => {
-                const now = Date.now()
-                if (now - lastTouchEnd <= 300) e.preventDefault()
-                lastTouchEnd = now
-            }, { passive: false })        })
-
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', () => {
-            if (realtimeSub) supabase.removeChannel(realtimeSub)
-        })
+        // Init
+        document.addEventListener('DOMContentLoaded', loadLeaderboard)
     </script>
 </body>
 </html>
