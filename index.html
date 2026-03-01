@@ -13,16 +13,16 @@
         .bg-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(123,104,238,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(123,104,238,0.05) 1px, transparent 1px); background-size: 40px 40px; z-index: -1; animation: gridMove 30s linear infinite; }
         @keyframes gridMove { 0% { transform: perspective(500px) rotateX(60deg) translateY(0); } 100% { transform: perspective(500px) rotateX(60deg) translateY(40px); } }
         .bg-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 80vw; height: 80vh; background: radial-gradient(circle, rgba(123,104,238,0.15) 0%, transparent 70%); z-index: -1; pointer-events: none; }
+        
+        /* NAVBAR */
         .navbar { position: fixed; top: 0; left: 0; right: 0; height: 80px; background: rgba(10,10,25,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; padding: 0 5%; z-index: 1000; animation: slideDown 0.8s ease; }
         @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
         .nav-logo { font-family: 'Orbitron', monospace; font-size: 1.6rem; font-weight: 900; color: var(--light); text-decoration: none; display: flex; align-items: center; gap: 10px; letter-spacing: 2px; }
         .nav-logo span { color: var(--secondary); }
         .nav-logo:hover { text-shadow: 0 0 20px var(--primary-glow); }
-        .nav-btn { padding: 10px 24px; border-radius: 30px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--light); text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 0.9rem; transition: all 0.3s; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(5px); }
-        .nav-btn:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(123,104,238,0.3); }
-        .nav-btn.admin-link { background: linear-gradient(135deg, var(--accent), #ff8fab); border: none; color: white; font-weight: 600; }
-        .nav-btn.admin-link:hover { box-shadow: 0 10px 30px rgba(255,107,157,0.4); }
-        .hero { padding: 180px 20px 80px; text-align: center; position: relative; }
+        
+        /* HERO */
+       : 180px 20px 80px; text-align: center; position: relative; }
         .hero-title { font-family: 'Orbitron', monospace; font-size: 4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 1rem; background: linear-gradient(135deg, var(--light), var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: textGlow 3s ease-in-out infinite alternate; }
         @keyframes textGlow { from { filter: drop-shadow(0 0 10px rgba(123,104,238,0.3)); } to { filter: drop-shadow(0 0 30px rgba(123,104,238,0.6)); } }
         .hero-subtitle { font-size: 1.2rem; color: var(--secondary); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 3rem; opacity: 0.8; animation: fadeInUp 1s ease 0.5s both; }
@@ -32,7 +32,9 @@
         .stat-box:hover { transform: translateY(-5px); border-color: var(--secondary); box-shadow: 0 10px 30px rgba(0,245,212,0.15); }
         .stat-number { font-family: 'Orbitron', monospace; font-size: 2.5rem; font-weight: 700; color: var(--light); display: block; }
         .stat-label { color: var(--secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px 100px; }
+        
+        /* MEMBERS GRID */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px 120px; }
         .section-header { text-align: center; margin-bottom: 3rem; position: relative; }
         .section-title { font-family: 'Orbitron', monospace; font-size: 2rem; color: var(--light); display: inline-block; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
         .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); gap: 2.5rem; perspective: 1000px; }
@@ -45,43 +47,236 @@
         .card-badge { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); border: 1px solid var(--secondary); white-space: nowrap; }
         .card-info { width: 60%; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; position: relative; }
         .card-info::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: linear-gradient(180deg, var(--primary), var(--secondary)); opacity: 0; transition: opacity 0.3s; }
-        .member-card:hover .card-info::before { opacity: 1; }
-        .member-name { font-family: 'Orbitron', monospace; font-size: 1.4rem; font-weight: 700; color: var(--light); margin-bottom: 5px; }
+        .member-card:hover .card-info::before { opacity: 1; }        .member-name { font-family: 'Orbitron', monospace; font-size: 1.4rem; font-weight: 700; color: var(--light); margin-bottom: 5px; }
         .member-title { font-size: 0.95rem; color: var(--accent); font-weight: 500; margin-bottom: 15px; }
         .member-id { font-family: 'Orbitron', monospace; font-size: 0.85rem; color: rgba(255,255,255,0.5); letter-spacing: 1px; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 6px; display: inline-block; width: fit-content; }
-        .empty-state { grid-column: 1/-1; text-align: center; padding: 4rem; color: rgba(255,255,255,0.4); animation: fadeIn 0.5s ease; }
+        .empty-state { grid-column: 1/-1; text-align: center; padding: 4rem; color: rgba(255,255,255,0.4); }
         .empty-state i { font-size: 4rem; margin-bottom: 1rem; display: block; }
         .loading-state { grid-column: 1/-1; text-align: center; padding: 4rem; }
         .loading-spinner { width: 50px; height: 50px; border: 4px solid var(--glass-border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .music-player { position: fixed; bottom: 30px; right: 30px; background: rgba(10,10,25,0.9); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 50px; padding: 12px 20px 12px 12px; display: flex; align-items: center; gap: 15px; z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: all 0.3s; }
+        
+        /* 🎯 FLOATING MENU SYSTEM */
+        .floating-menu {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: flex-end;
+            gap: 12px;
+        }
+        
+        /* Main FAB Button */
+        .fab-main {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 40px rgba(123, 104, 238, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        .fab-main::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        .fab-main:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 15px 50px rgba(123, 104, 238, 0.7);        }
+        .fab-main:hover::before { left: 100%; }
+        .fab-main:active { transform: scale(0.95) rotate(90deg); }
+        
+        /* Menu Items Container */
+        .fab-items {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+        .fab-items.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        
+        /* Individual Menu Item */
+        .fab-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--light);
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            transform: translateX(30px);
+            opacity: 0;
+        }
+        .fab-items.active .fab-item {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .fab-items.active .fab-item:nth-child(1) { transition-delay: 0.05s; }
+        .fab-items.active .fab-item:nth-child(2) { transition-delay: 0.1s; }
+                .fab-item:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateX(-5px) !important;
+            box-shadow: 0 15px 40px rgba(123, 104, 238, 0.4);
+        }
+        .fab-item i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .fab-item:hover i { transform: scale(1.2); }
+        
+        /* Item Specific Styles */
+        .fab-item.admin { border-left: 3px solid var(--accent); }
+        .fab-item.admin:hover { background: linear-gradient(135deg, var(--accent), #ff8fab); color: white; }
+        .fab-item.leaderboard { border-left: 3px solid var(--gold, #ffd700); }
+        .fab-item.leaderboard:hover { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #000; }
+        
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+        }
+        @keyframes ripple {
+            to { transform: scale(4); opacity: 0; }
+        }
+        
+        /* Tooltip */
+        .fab-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%) translateX(10px);
+            padding: 6px 12px;
+            background: var(--dark);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            pointer-events: none;            z-index: 1001;
+        }
+        .fab-item:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(0);
+        }
+        
+        /* MUSIC PLAYER - Adjusted Position */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: calc(30px + 60px + 12px); /* Adjusted for floating menu */
+            background: rgba(10,10,25,0.9);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 12px 20px 12px 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 999;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
         .music-player:hover { transform: translateY(-5px); border-color: var(--secondary); }
         .music-visualizer { display: flex; gap: 3px; height: 20px; align-items: flex-end; }
         .music-bar { width: 3px; background: var(--secondary); border-radius: 2px; animation: visualize 1s ease-in-out infinite; }
-        .music-bar:nth-child(1) { animation-delay: 0s; height: 40%; } .music-bar:nth-child(2) { animation-delay: 0.2s; height: 80%; } .music-bar:nth-child(3) { animation-delay: 0.4s; height: 50%; }
+        .music-bar:nth-child(1) { animation-delay: 0s; height: 40%; }
+        .music-bar:nth-child(2) { animation-delay: 0.2s; height: 80%; }
+        .music-bar:nth-child(3) { animation-delay: 0.4s; height: 50%; }
         @keyframes visualize { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.4); } }
         .music-player.paused .music-bar { animation-play-state: paused; height: 20%; }
         .music-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
         .music-btn:hover { background: var(--secondary); color: #000; transform: scale(1.1); }
-        .db-status { position: fixed; top: 90px; right: 20px; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(10px); z-index: 999; transition: all 0.3s; }
+        
+        /* DB Status */
+        .db-status { position: fixed; top: 90px; right: 20px; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(10px); z-index: 999; }
         .db-status.online { background: rgba(0,245,212,0.15); color: var(--secondary); border: 1px solid var(--secondary); }
         .db-status.offline { background: rgba(255,71,87,0.15); color: var(--danger); border: 1px solid var(--danger); }
         .db-status.dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-        @media (max-width: 768px) { .hero-title { font-size: 2.5rem; } .members-grid { grid-template-columns: 1fr; } .member-card { aspect-ratio: auto; min-height: 280px; flex-direction: column; } .card-image { width: 100%; height: 45%; } .card-info { width: 100%; height: 55%; } .navbar { padding: 0 20px; } .nav-logo { font-size: 1.2rem; } .music-player { bottom: 20px; right: 20px; left: 20px; justify-content: center; } }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .members-grid { grid-template-columns: 1fr; }
+            .member-card { aspect-ratio: auto; min-height: 280px; flex-direction: column; }
+            .card-image { width: 100%; height: 45%; }
+            .card-info { width: 100%; height: 55%; }            .navbar { padding: 0 20px; }
+            .nav-logo { font-size: 1.2rem; }
+            
+            /* Floating Menu Mobile */
+            .floating-menu {
+                bottom: 20px;
+                right: 20px;
+            }
+            .fab-main { width: 55px; height: 55px; font-size: 1.3rem; }
+            .fab-item { padding: 10px 16px; font-size: 0.85rem; }
+            .fab-item::after { display: none; } /* Hide tooltip on mobile */
+            
+            /* Music Player Mobile */
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
+    <!-- NAVBAR -->
     <nav class="navbar">
         <a href="#" class="nav-logo"><i class="fas fa-crown"></i> KYOUTAKA <span>MEMBERSHIP</span></a>
-        <a href="admin.html" class="nav-btn admin-link"><i class="fas fa-user-shield"></i> Admin Login</a>
     </nav>
 
     <div class="db-status offline" id="dbStatus"><span class="dot"></span><span id="dbText">Connecting...</span></div>
 
+    <!-- HERO -->
     <section class="hero">
         <h1 class="hero-title">Elite Community</h1>
         <p class="hero-subtitle">Exclusive Network & Global Connection</p>
@@ -92,13 +287,34 @@
         </div>
     </section>
 
+    <!-- MEMBERS GRID -->
     <div class="container">
         <div class="section-header"><h2 class="section-title">Our Members</h2></div>
         <div class="members-grid" id="membersGrid">
             <div class="loading-state"><div class="loading-spinner"></div><p>Loading members...</p></div>
+        </div>    </div>
+
+    <!-- 🎯 FLOATING MENU SYSTEM -->
+    <div class="floating-menu" id="floatingMenu">
+        <!-- Menu Items (Hidden by default) -->
+        <div class="fab-items" id="fabItems">
+            <a href="admin.html" class="fab-item admin" data-tooltip="Admin Dashboard">
+                <i class="fas fa-user-shield"></i>
+                <span>Admin</span>
+            </a>
+            <a href="leaderboard.html" class="fab-item leaderboard" data-tooltip="View Rankings">
+                <i class="fas fa-trophy"></i>
+                <span>Leaderboard</span>
+            </a>
         </div>
+        
+        <!-- Main FAB Button -->
+        <button class="fab-main" id="fabMain" aria-label="Open menu" aria-expanded="false">
+            <i class="fas fa-plus" id="fabIcon"></i>
+        </button>
     </div>
 
+    <!-- MUSIC PLAYER -->
     <div class="music-player paused" id="musicPlayer">
         <div class="music-visualizer"><div class="music-bar"></div><div class="music-bar"></div><div class="music-bar"></div></div>
         <button class="music-btn" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
@@ -116,21 +332,82 @@
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
         let realtimeChannel = null
 
+        // ========== FLOATING MENU LOGIC ==========
+        const fabMain = document.getElementById('fabMain')
+        const fabItems = document.getElementById('fabItems')
+        const fabIcon = document.getElementById('fabIcon')
+        let isMenuOpen = false
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen
+            fabItems.classList.toggle('active', isMenuOpen)
+            fabMain.setAttribute('aria-expanded', isMenuOpen)            
+            // Icon animation
+            if (isMenuOpen) {
+                fabIcon.classList.remove('fa-plus')
+                fabIcon.classList.add('fa-times')
+                // Create ripple effect
+                createRipple(event)
+            } else {
+                fabIcon.classList.remove('fa-times')
+                fabIcon.classList.add('fa-plus')
+            }
+        }
+
+        function createRipple(e) {
+            const ripple = document.createElement('span')
+            ripple.className = 'ripple'
+            fabMain.appendChild(ripple)
+            
+            const rect = fabMain.getBoundingClientRect()
+            const size = Math.max(rect.width, rect.height)
+            const x = e ? e.clientX - rect.left - size/2 : rect.width/2 - size/2
+            const y = e ? e.clientY - rect.top - size/2 : rect.height/2 - size/2
+            
+            ripple.style.width = ripple.style.height = `${size}px`
+            ripple.style.left = `${x}px`
+            ripple.style.top = `${y}px`
+            
+            setTimeout(() => ripple.remove(), 600)
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (isMenuOpen && !e.target.closest('.floating-menu')) {
+                toggleMenu()
+            }
+        })
+
+        // Keyboard navigation
+        fabMain.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                toggleMenu()
+            }
+            if (e.key === 'Escape' && isMenuOpen) {
+                toggleMenu()
+                fabMain.focus()
+            }
+        })
+
+        // Add click event with ripple        fabMain.addEventListener('click', (e) => {
+            if (!isMenuOpen) createRipple(e)
+            toggleMenu()
+        })
+
+        // ========== DATABASE ==========
         async function initDatabase() {
             const statusEl = document.getElementById('dbStatus')
             const statusText = document.getElementById('dbText')
             const grid = document.getElementById('membersGrid')
             
             try {
-                // Load initial data
                 const { data, error } = await supabase.from('members').select('*').order('created_at', { ascending: false })
                 if (error) throw error
                 
                 statusEl.className = 'db-status online'
                 statusText.innerText = '● Live Sync'
                 renderMembers(data || {})
-                
-                // Setup real-time subscription
                 setupRealtime()
             } catch (err) {
                 console.error('Database error:', err)
@@ -143,8 +420,7 @@
         function setupRealtime() {
             realtimeChannel = supabase.channel('public:members')
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'members' }, 
-                    async (payload) => {
-                        console.log('Real-time update:', payload)
+                    async () => {
                         const { data } = await supabase.from('members').select('*').order('created_at', { ascending: false })
                         renderMembers(data || {})
                     }
@@ -163,7 +439,6 @@
                 grid.innerHTML = `<div class="empty-state"><i class="fas fa-users-slash"></i><p>No members yet.<br><small style="opacity:0.6">Check back soon!</small></p></div>`
                 return
             }
-
             membersArray.forEach((m, index) => {
                 const photoUrl = m.photo && m.photo.length > 10 
                     ? m.photo 
@@ -213,6 +488,5 @@
 
         // Init
         document.addEventListener('DOMContentLoaded', initDatabase)
-    </script>
-</body>
+    </script></body>
 </html>
